@@ -8,8 +8,12 @@ using namespace std;
 
 #define Nil NULL
 
-typedef int infotype;
 typedef struct elmQueue *address;
+
+// --- DEKLARASI POINTER ---
+typedef struct elmList *addressList;
+typedef struct elmStack *addressStack;
+typedef struct elmQueue *addressQueue;
 
 struct SesiOlahraga
 {
@@ -22,12 +26,7 @@ struct SesiOlahraga
 
 typedef SesiOlahraga infotype;
 
-// --- DEKLARASI POINTER ---
-typedef struct elmList *addressList;
-typedef struct elmStack *addressStack;
-typedef struct elmQueue *addressQueue;
-
-// MULTI LINKED LIST (Riwayat)
+// Struk MULTI LINKED LIST (Riwayat)
 struct elmList
 {
     infotype info;
@@ -39,7 +38,7 @@ struct List
     addressList first;
 };
 
-// STACK(Fitur Undo Sesi)
+// Struct STACK
 struct elmStack
 {
     infotype info;
@@ -49,6 +48,19 @@ struct elmStack
 struct Stack
 {
     addressStack top;
+};
+
+// Struct queue
+struct elmQueue
+{
+    infotype info;
+    addressQueue next;
+};
+
+struct Queue
+{
+    addressQueue head;
+    addressQueue tail;
 };
 
 // Deklarasi fungsi
