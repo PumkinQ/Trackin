@@ -85,4 +85,11 @@ void dequeue(Queue &Q, addressQueue &P);
 void catatSesi(List &L, Stack &S, infotype dataBaru);
 void undoSesi(List &L, Stack &S);
 
+
+double hitungJarak(double kecepatanKmh, double waktuJam);
+double hitungPaceLariSepeda(double jarakKm, double waktuMenit);
+double hitungPaceRenang(double jarakMeter, double waktuMenit);
+double hitungSPM(int jumlahLangkah, double waktuMenit);
+bool validasiKecepatan(string cabang, double kecepatanKmh);
+
 #endif
