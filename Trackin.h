@@ -8,8 +8,6 @@ using namespace std;
 
 #define Nil NULL
 
-typedef struct elmQueue *address;
-
 // --- DEKLARASI POINTER ---
 typedef struct elmList *addressList;
 typedef struct elmStack *addressStack;
