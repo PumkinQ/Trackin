@@ -12,4 +12,6 @@ struct SesiOlahraga {
     float jarak; // dalam km
     int waktu; // dalam menit
     string hasilPace;
-};
+}; 
+
+#endif
