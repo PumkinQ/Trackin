@@ -205,3 +205,68 @@ void undoSesi(List &L, Stack &S)
     delete P_Stack;
     delete P_List;
 }
+
+double hitungJarak(double kecepatanKmh, double waktuJam)
+{
+    if (kecepatanKmh <= 0 || waktuJam <= 0)
+    {
+        return 0;
+    }
+
+    return kecepatanKmh * waktuJam;
+}
+
+double hitungPaceLariSepeda(double jarakKm, double waktuMenit)
+{
+    if (jarakKm <= 0 || waktuMenit <= 0)
+    {
+        return 0;
+    }
+
+    return waktuMenit / jarakKm;
+}
+
+double hitungPaceRenang(double jarakMeter, double waktuMenit)
+{
+    if (jarakMeter <= 0 || waktuMenit <= 0)
+    {
+        return 0;
+    }
+
+    return (waktuMenit / jarakMeter) * 100;
+}
+
+double hitungSPM(int jumlahLangkah, double waktuMenit)
+{
+    if (jumlahLangkah <= 0 || waktuMenit <= 0)
+    {
+        return 0;
+    }
+
+    return jumlahLangkah / waktuMenit;
+}
+
+bool validasiKecepatan(string cabang, double kecepatanKmh)
+{
+    if (kecepatanKmh <= 0)
+    {
+        return false;
+    }
+
+    if (cabang == "lari" || cabang == "Lari" || cabang == "running" || cabang == "Running")
+    {
+        return kecepatanKmh <= 30;
+    }
+
+    if (cabang == "sepeda" || cabang == "Sepeda" || cabang == "cycling" || cabang == "Cycling")
+    {
+        return kecepatanKmh <= 100;
+    }
+
+    if (cabang == "renang" || cabang == "Renang" || cabang == "berenang" || cabang == "Berenang" || cabang == "swimming" || cabang == "Swimming")
+    {
+        return kecepatanKmh <= 15;
+    }
+
+    return false;
+}
