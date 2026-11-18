@@ -2,7 +2,13 @@
 #include <limits>
 #include <string>
 #include <iomanip>
+#include "Trackin.h"
+#include "search.h"
+
 using namespace std;
+
+List L;
+Stack S;
 
 void menuLari();
 void menuSepeda();
@@ -80,6 +86,9 @@ double hitungPace(double jarak, double waktu)
 int main()
 {
     int pilihan;
+    
+    createList(L);
+    createStack(S);
 
     do
     {
@@ -91,6 +100,8 @@ int main()
         cout << "2. Sepeda (Cycling)\n";
         cout << "3. Berenang (Swimming)\n";
         cout << "4. Running Summary\n";
+        cout << "5. Cari Riwayat Sesi\n";
+        cout << "6. Undo Sesi Terakhir\n";
         cout << "0. Exit\n";
         cout << "================================\n";
         cout << "Pilih menu: ";
@@ -115,6 +126,32 @@ int main()
             runningSummary();
             break;
 
+        case 5: {
+            string cabangCari;
+            cout << "\nPENCARIAN SESI\n";
+            cout << "Masukkan Cabang (Lari/Sepeda/Berenang/Mendayung): ";
+            cin >> cabangCari;
+
+            addressList hasil = cariSesiBerdasarkanCabang(L, cabangCari);
+
+            if (hasil != Nil) {
+                cout << "\nDATA DITEMUKAN\n";
+                cout << "Cabang   : " << hasil->info.cabang << endl;
+                cout << "Jarak    : " << hasil->info.jarak << " KM\n";
+                cout << "Waktu    : " << hasil->info.waktu << " menit\n";
+                cout << "Pace/Kecepatan : " << hasil->info.hasilPace << "\n";
+            } else {
+                cout << "\nDATA TIDAK DITEMUKAN\n";
+                cout << "Belum ada riwayat untuk olahraga '" << cabangCari << "'.\n";
+            }
+            break;
+        }
+
+        case 6:
+            cout << "\nUNDO SESI\n";
+            undoSesi(L, S);
+            break;
+
         case 0:
            cout << "\nTerima kasih sudah menggunakan TRACKIN!\n";
             break;
@@ -128,11 +165,11 @@ int main()
     return 0;
 }
 
-    void menuLari()
+void menuLari()
 {
     int pilihan;
     string nama;
-    double jarak, waktu, pace;
+    double jarak = 0, waktu = 0, pace = 0;
 
     do
     {
@@ -183,6 +220,7 @@ int main()
                     waktu = inputPositif("Masukkan waktu (menit): ");
 
                     pace = waktu / (jarak / 100.0);
+                    jarak = jarak / 1000.0; // konversi ke KM untuk struct
 
                     cout << "\nPace Lari Interval: "
                          << fixed << setprecision(2)
@@ -210,6 +248,16 @@ int main()
             }
 
             cout << "Nama: " << nama << endl;
+
+            // Integrasi ke Linked List dan Stack
+            infotype dataBaru;
+            dataBaru.id = "-"; 
+            dataBaru.cabang = "Lari";
+            dataBaru.jarak = jarak;
+            dataBaru.waktu = waktu;
+            dataBaru.hasilPace = to_string(pace);
+            catatSesi(L, S, dataBaru);
+
             cout << "Data berhasil diinput!\n";
         }
         else if (pilihan == 5)
@@ -228,7 +276,7 @@ void menuSepeda()
 {
     int pilihan;
     string nama, medan;
-    double jarak, waktu, kecepatan;
+    double jarak = 0, waktu = 0, kecepatan = 0;
 
     do
     {
@@ -294,6 +342,16 @@ void menuSepeda()
             }
 
             cout << "Nama: " << nama << endl;
+
+            // Integrasi ke Linked List dan Stack
+            infotype dataBaru;
+            dataBaru.id = "-"; 
+            dataBaru.cabang = "Sepeda";
+            dataBaru.jarak = jarak;
+            dataBaru.waktu = waktu;
+            dataBaru.hasilPace = to_string(kecepatan) + " km/jam";
+            catatSesi(L, S, dataBaru);
+
             cout << "Data berhasil diinput!\n";
         }
         else if (pilihan == 3)
@@ -312,7 +370,7 @@ void menuBerenang()
 {
     int pilihan;
     string nama;
-    double jarak, waktu, pace;
+    double jarak = 0, waktu = 0, pace = 0;
 
     do
     {
@@ -353,6 +411,16 @@ void menuBerenang()
             }
 
             cout << "Nama: " << nama << endl;
+
+            // Integrasi ke Linked List dan Stack
+            infotype dataBaru;
+            dataBaru.id = "-"; 
+            dataBaru.cabang = (pilihan == 1) ? "Berenang" : "Mendayung";
+            dataBaru.jarak = jarak / 1000.0; // konversi meter ke KM
+            dataBaru.waktu = waktu;
+            dataBaru.hasilPace = to_string(pace);
+            catatSesi(L, S, dataBaru);
+
             cout << "Data berhasil diinput!\n";
         }
         else if (pilihan == 3)
@@ -373,8 +441,12 @@ void runningSummary()
     cout << "        RUNNING SUMMARY         \n";
     cout << "================================\n";
 
-    cout << "Belum ada data aktivitas.\n";
-    cout << "Silakan input aktivitas terlebih dahulu.\n";
+    if (L.first == Nil) {
+        cout << "Belum ada data aktivitas.\n";
+        cout << "Silakan input aktivitas terlebih dahulu.\n";
+    } else {
+        showRiwayat(L);
+    }
 
     cout << "================================\n";
 }
