@@ -3,10 +3,6 @@
 
 using namespace std;
 
-Void SesiOlahraga()
-{
-}
-
 // Linked List
 void createList(List &L)
 {
