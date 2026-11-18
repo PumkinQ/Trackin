@@ -20,6 +20,8 @@ int inputAngka()
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     return pilihan;
 }
 
@@ -41,10 +43,13 @@ double inputPositif(string pesan)
                 return angka;
             }
         }
+        else
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
 
         cout << "Input tidak valid! Masukkan angka lebih dari 0.\n";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
@@ -123,177 +128,242 @@ int main()
     return 0;
 }
 
-void menuLari()
+    void menuLari()
 {
     int pilihan;
     string nama;
-    string rute;
-    double jarak = 0;
-    double waktu = 0;
+    double jarak, waktu, pace;
 
-    cout << "\n========== MENU LARI ==========\n";
-    cout << "1. Input Aktivitas Lari\n";
-    cout << "2. Kembali ke Menu Utama\n";
-    cout << "Pilih menu: ";
-
-    pilihan = inputAngka();
-
-    if (pilihan == 1)
+    do
     {
+        cout << "\n========== MENU LARI ==========\n";
+        cout << "1. Lari Aspal\n";
+        cout << "2. Lari Gunung / Trail\n";
+        cout << "3. Lari Interval\n";
+        cout << "4. Jalan Cepat\n";
+        cout << "5. Kembali ke Menu Utama\n";
+        cout << "Pilih menu: ";
 
-        cout << "\n===== INPUT AKTIVITAS LARI =====\n";
+        pilihan = inputAngka();
 
-        cout << "Nama Pelari: ";
-        nama = inputNama();
-
-        cout << "Nama Pelari: ";
-        nama = inputNama();
-        cout << "\nPilih Rute Lari:\n";
-        cout << "1. GBK Loop (0.9 KM)\n";
-        cout << "2. Sudirman-Thamrin CFD (7 KM)\n";
-        cout << "3. Kebun Raya Bogor (3.2 KM)\n";
-        cout << "Pilih rute: ";
-
-        int pilihRute = inputAngka();
-
-        switch (pilihRute)
+        if (pilihan >= 1 && pilihan <= 4)
         {
-        case 1:
-            rute = "GBK Loop";
-            jarak = 0.9;
-            break;
+            cout << "\nMasukkan nama: ";
+            nama = inputNama();
 
-        case 2:
-            rute = "Sudirman-Thamrin CFD";
-            jarak = 7.0;
-            break;
+            switch (pilihan)
+            {
+                case 1:
+                    cout << "\n===== LARI ASPAL =====\n";
+                    jarak = inputPositif("Masukkan jarak (KM): ");
+                    waktu = inputPositif("Masukkan waktu (menit): ");
 
-        case 3:
-            rute = "Kebun Raya Bogor";
-            jarak = 3.2;
-            break;
+                    pace = waktu / jarak;
 
-        default:
-            cout << "Pilihan rute tidak tersedia!\n";
-            return;
+                    cout << "\nPace Lari Aspal: "
+                         << fixed << setprecision(2)
+                         << pace << " menit/km\n";
+                    break;
+
+                case 2:
+                    cout << "\n===== LARI GUNUNG / TRAIL =====\n";
+                    jarak = inputPositif("Masukkan jarak (KM): ");
+                    waktu = inputPositif("Masukkan waktu (menit): ");
+
+                    pace = waktu / jarak;
+
+                    cout << "\nPace Lari Trail: "
+                         << fixed << setprecision(2)
+                         << pace << " menit/km\n";
+                    break;
+
+                case 3:
+                    cout << "\n===== LARI INTERVAL =====\n";
+                    jarak = inputPositif("Masukkan jarak (meter): ");
+                    waktu = inputPositif("Masukkan waktu (menit): ");
+
+                    pace = waktu / (jarak / 100.0);
+
+                    cout << "\nPace Lari Interval: "
+                         << fixed << setprecision(2)
+                         << pace << " menit/100m\n";
+                    break;
+
+                case 4:
+                {
+                    double spm;
+
+                    cout << "\n===== JALAN CEPAT =====\n";
+                    jarak = inputPositif("Masukkan jarak (KM): ");
+                    waktu = inputPositif("Masukkan waktu (menit): ");
+                    spm = inputPositif("Masukkan langkah per menit (SPM): ");
+
+                    pace = waktu / jarak;
+
+                    cout << "\nPace Jalan Cepat: "
+                         << fixed << setprecision(2)
+                         << pace << " menit/km\n";
+                    cout << "SPM: " << spm << " langkah/menit\n";
+                    break;
+                }
+            }
+
+            cout << "Nama: " << nama << endl;
+            cout << "Data berhasil diinput!\n";
+        }
+        else if (pilihan == 5)
+        {
+            cout << "\nKembali ke Menu Utama...\n";
+        }
+        else
+        {
+            cout << "\nPilihan tidak tersedia!\n";
         }
 
-        waktu = inputPositif("\nMasukkan waktu tempuh (menit): ");
-        double pace = hitungPace(jarak, waktu);
-
-        cout << "\n===== DATA AKTIVITAS LARI =====\n";
-        cout << "Nama Pelari : " << nama << endl;
-        cout << "Jenis       : Lari\n";
-        cout << "Rute        : " << rute << endl;
-        cout << "Jarak       : " << jarak << " KM\n";
-        cout << "Waktu       : " << waktu << " menit\n";
-        cout << fixed << setprecision(2);
-        cout << "Pace        : " << pace << " menit/km\n";
-
-        cout << "\nData berhasil diinput!\n";
-    }
-    else if (pilihan == 2)
-    {
-        cout << "\nKembali ke Menu Utama...\n";
-    }
-    else
-    {
-        cout << "\nPilihan tidak tersedia!\n";
-    }
+    } while (pilihan != 5);
 }
 
 void menuSepeda()
 {
     int pilihan;
+    string nama, medan;
+    double jarak, waktu, kecepatan;
 
     do
     {
-        cout << "\n===== MENU SEPEDA =====\n";
-        cout << "1. Input Aktivitas Sepeda\n";
-        cout << "2. Kembali ke Menu Utama\n";
+        cout << "\n========== MENU SEPEDA ==========\n";
+        cout << "1. Sepeda Aspal\n";
+        cout << "2. Sepeda Gunung\n";
+        cout << "3. Kembali ke Menu Utama\n";
         cout << "Pilih menu: ";
+
         pilihan = inputAngka();
 
-        switch (pilihan)
+        if (pilihan == 1 || pilihan == 2)
         {
-        case 1:
+            cout << "\nMasukkan nama: ";
+            nama = inputNama();
+
+            switch (pilihan)
+            {
+                case 1:
+                    cout << "\n===== SEPEDA ASPAL =====\n";
+                    jarak = inputPositif("Masukkan jarak (KM): ");
+                    waktu = inputPositif("Masukkan waktu (menit): ");
+
+                    kecepatan = jarak / (waktu / 60.0);
+
+                    cout << "\nKecepatan: " << fixed << setprecision(2)
+                         << kecepatan << " km/jam\n";
+                    break;
+
+                case 2:
+                    cout << "\n===== SEPEDA GUNUNG =====\n";
+                    jarak = inputPositif("Masukkan jarak (KM): ");
+                    waktu = inputPositif("Masukkan waktu (menit): ");
+
+                    cout << "\nPilih tingkat kesulitan medan:\n";
+                    cout << "1. Easy\n";
+                    cout << "2. Medium\n";
+                    cout << "3. Hard\n";
+                    cout << "Pilih: ";
+
+                    int tingkat;
+                    tingkat = inputAngka();
+
+                    while (tingkat < 1 || tingkat > 3)
+                    {
+                        cout << "Pilihan tidak tersedia! Pilih 1-3: ";
+                        tingkat = inputAngka();
+                    }
+
+                    if (tingkat == 1)
+                        medan = "Easy";
+                    else if (tingkat == 2)
+                        medan = "Medium";
+                    else
+                        medan = "Hard";
+
+                    kecepatan = jarak / (waktu / 60.0);
+
+                    cout << "\nKecepatan: " << fixed << setprecision(2)
+                         << kecepatan << " km/jam\n";
+                    cout << "Tingkat medan: " << medan << endl;
+                    break;
+            }
+
+            cout << "Nama: " << nama << endl;
+            cout << "Data berhasil diinput!\n";
+        }
+        else if (pilihan == 3)
         {
-            string nama;
-            double jarak, waktu;
-
-            cout << "\n===== INPUT AKTIVITAS SEPEDA =====\n";
-
-            cout << "Masukkan nama: ";
-            nama = inputNama();
-            nama = inputNama();
-            jarak = inputPositif("Masukkan jarak (KM): ");
-            waktu = inputPositif("Masukkan waktu (menit): ");
-
-            cout << "\n===== DATA AKTIVITAS SEPEDA =====\n";
-            cout << "Nama  : " << nama << endl;
-            cout << "Jarak : " << jarak << " KM" << endl;
-            cout << "Waktu : " << waktu << " menit" << endl;
-
-            cout << "\nData berhasil diinput!\n";
-            break;
+            cout << "\nKembali ke Menu Utama...\n";
+        }
+        else
+        {
+            cout << "\nPilihan tidak tersedia!\n";
         }
 
-        case 2:
-            cout << "Kembali ke menu utama...\n";
-            break;
-
-        default:
-            cout << "Pilihan tidak tersedia!\n";
-        }
-
-    } while (pilihan != 2);
+    } while (pilihan != 3);
 }
 
 void menuBerenang()
 {
     int pilihan;
+    string nama;
+    double jarak, waktu, pace;
 
     do
     {
-        cout << "\n===== MENU BERENANG =====\n";
-        cout << "1. Input Aktivitas Berenang\n";
-        cout << "2. Kembali ke Menu Utama\n";
+        cout << "\n========== MENU AIR ==========\n";
+        cout << "1. Berenang\n";
+        cout << "2. Mendayung (Rowing)\n";
+        cout << "3. Kembali ke Menu Utama\n";
         cout << "Pilih menu: ";
+
         pilihan = inputAngka();
 
-        switch (pilihan)
+        if (pilihan == 1 || pilihan == 2)
         {
-        case 1:
+            cout << "\nMasukkan nama: ";
+            nama = inputNama();
+
+            if (pilihan == 1)
+            {
+                cout << "\n===== BERENANG =====\n";
+                jarak = inputPositif("Masukkan jarak (meter): ");
+                waktu = inputPositif("Masukkan waktu (menit): ");
+
+                pace = waktu / (jarak / 100.0);
+
+                cout << "Pace: " << fixed << setprecision(2)
+                     << pace << " menit/100m\n";
+            }
+            else
+            {
+                cout << "\n===== MENDAYUNG (ROWING) =====\n";
+                jarak = inputPositif("Masukkan jarak (meter): ");
+                waktu = inputPositif("Masukkan waktu (menit): ");
+
+                pace = waktu / (jarak / 500.0);
+
+                cout << "Pace: " << fixed << setprecision(2)
+                     << pace << " menit/500m\n";
+            }
+
+            cout << "Nama: " << nama << endl;
+            cout << "Data berhasil diinput!\n";
+        }
+        else if (pilihan == 3)
         {
-            string nama;
-            double jarak, waktu;
-
-            cout << "\n===== INPUT AKTIVITAS BERENANG =====\n";
-
-            cout << "Masukkan nama: ";
-            nama = inputNama();
-            nama = inputNama();
-            jarak = inputPositif("Masukkan jarak (meter): ");
-            waktu = inputPositif("Masukkan waktu (menit): ");
-
-            cout << "\n===== DATA AKTIVITAS BERENANG =====\n";
-            cout << "Nama  : " << nama << endl;
-            cout << "Jarak : " << jarak << " meter" << endl;
-            cout << "Waktu : " << waktu << " menit" << endl;
-
-            cout << "\nData berhasil diinput!\n";
-            break;
+            cout << "\nKembali ke Menu Utama...\n";
+        }
+        else
+        {
+            cout << "\nPilihan tidak tersedia!\n";
         }
 
-        case 2:
-            cout << "Kembali ke menu utama...\n";
-            break;
-
-        default:
-            cout << "Pilihan tidak tersedia!\n";
-        }
-
-    } while (pilihan != 2);
+    } while (pilihan != 3);
 }
 
 void runningSummary()
