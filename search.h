@@ -6,6 +6,6 @@
 
 using namespace std;
 
-addressList cariSesiBerdasarkanID(List L, string idDicari);
+addressList cariSesiBerdasarkanCabang(List L, string idDicari);
 
 #endif
