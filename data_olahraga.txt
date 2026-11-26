@@ -1,0 +1,2 @@
+ATLET|AT1|Gede Yoges|65.00|175.00|21.22|Ideal
+SESI|SS1|AT1|Lari|Lari Aspal|7.61|5.17|12.00|50.00|4.17|menit/km|BEST!|38.50

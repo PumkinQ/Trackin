@@ -1,2 +1,2 @@
 # Trackin
-Aplikasi Tracker untuk TUGAS BESAR Struktur Data
+Aplikasi Tracker Olahraga - Tugas Besar Struktur Data (Kelompok 13)
